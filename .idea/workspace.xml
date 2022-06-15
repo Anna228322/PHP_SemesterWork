@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5fd79158-f961-49d6-9bb2-0c660d7fa760" name="Default Changelist" comment="">
+    <list default="true" id="5fd79158-f961-49d6-9bb2-0c660d7fa760" name="Default Changelist" comment="readme.v2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leasing-demo/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/leasing-demo/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +181,7 @@
       <workItem from="1655106576003" duration="12740000" />
       <workItem from="1655130590984" duration="4430000" />
       <workItem from="1655249071630" duration="8207000" />
-      <workItem from="1655305551683" duration="783000" />
+      <workItem from="1655305551683" duration="4095000" />
     </task>
     <task id="LOCAL-00001" summary="images for readme">
       <created>1655257062565</created>
@@ -198,7 +197,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655257188754</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="readme.v2">
+      <created>1655306541764</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1655306541764</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,6 +227,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="images for readme" />
     <MESSAGE value="readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="readme" />
+    <MESSAGE value="readme.v2" />
+    <option name="LAST_COMMIT_MESSAGE" value="readme.v2" />
   </component>
 </project>

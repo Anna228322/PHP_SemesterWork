@@ -1,64 +1,117 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<h1 align="center">АИС для обработки заявок</h1>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Контактная информация
+Меня зовут Анна, я студент 3 курса на направлении "программная инженерия".
+Моя почта: anna.fittsdzherald@mail.ru
+Версия проекта v1.0
+Дата создания: 16.06.2022
 
-## About Laravel
+### Общая информация
+Предметная область: лизинговый центр.
+Суть проекта - создать сервис для обработки заявок лизинговой компании.
+Сервер принимает на вход документ csv, парсит строки и готовить список заявок по клиентам.
+Авторизированному пользователю можно их посмотреть и удалить.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Библиотеки
+- в основе MVC фреймворк Laravel
+- MediaFilter - для облегчения работы с загрузкой файлов
+- SanCtum - для облегчения работы с авторизацией
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Сниппет:
+```php
+$originalFile = $request->file('file');
+        $csv = Csv::create([
+            'tag' => $request['tag'],
+            'filename' => $originalFile->getClientOriginalName(),
+            'user_id' => auth()->id(),
+        ]);
+        $file = $csv->addMediaFromRequest('file')
+            ->toMediaCollection('imports');
+        $filename = storage_path('app\\public\\'.$file->id.'\\'.$file->file_name);
+        $skip = TRUE;
+        $row = 0;
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Требования
+Для пользования сервером дополнительных инструментов не требуется, но БД хранится локально на компьютере
 
-## Learning Laravel
+- **Функциональные требования**
+  БД должна хранить:
+    - список клиентов
+    - список контактов (почты и телефонов)
+    - список адресов
+    - список типов объектов на лизинг
+    - срок лизинга
+    - список компаний
+    - список заявок
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Сервер должен предоставить доступ к:
+- просмотру клиентов
+- просмотру заявок по клиенту
+- удалению заявок
+- загрузке csv-документа
+- составлению json-файла
+- интеграции с CRM-системой (!)
+- просмотру списку типов объектов на лизинг
+- не допускать неавторизированного пользователя к просмотру данных
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Системные требования**
+    - интеграция с CRM-системой (!)
+    - необходим лог всех запросов (!)
+    - бэкап БД раз в месяц (!)
 
-## Laravel Sponsors
+- **Нефункциональные требования**
+    - взаимодействие с БД
+    - парсинг csv-документа
+    - поддержка объемных csv-документов
+    - система авторизации
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+> ! - помечено то, что на данный момент не представаляется возможным реализовать
 
-### Premium Partners
+### Архитектура
+Код исполнен в соответствии с loose coupling (слабая связанность)
+& high cohesion (высокая сплочённость)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+HLD-документации по нотации C4
+HLD (high-level design) – верхнеуровневое описание архитектуры системы,
+где представлены основные компоненты и их взаимодействия
+согласно нотации Context+Container+Component+Code=С4.
+![alt text](https://github.com/Anna228322/PHPSemesterWork/blob/master/readme_img_1.jpg?raw=true)
 
-## Contributing
+### Код на примере 4-х взаимосвязанных классов:
+```php
+ $file = $csv->addMediaFromRequest('file')
+            ->toMediaCollection('imports');
+        $filename = storage_path('app\\public\\'.$file->id.'\\'.$file->file_name);
+        $row = 1;
+        if (($handle = fopen($filename, "r")) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+                $row++;
+                $company = Company::create([
+                    'name' => $data[7],
+                    'email' => $data[9],
+                    'phone' => $data[8],
+                    'address' => $data[10]
+                ]);
+                $contact = Contact::create([
+                    'name' => $data[3],
+                    'email' => $data[5],
+                    'phone' => $data[4],
+                    'address' => $data[6],
+                    'company_id' => $company->id
+                ]);
+                Application::create([
+                    'contact_id' => $contact->id,
+                    'csv_id' => $csv->id,
+                    'sum' => $data[2],
+                    'object_type' => $data[0],
+                    'lease_term' => $data[1],
+                ]);
+            }
+            fclose($handle);
+        }
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Диаграмма последовательности (sequence diagram)
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+![alt text](https://github.com/Anna228322/PHPSemesterWork/blob/master/readme_img_0.jpg?raw=true)

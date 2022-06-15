@@ -20,16 +20,16 @@
 ### Сниппет:
 ```php
 $originalFile = $request->file('file');
-        $csv = Csv::create([
-            'tag' => $request['tag'],
-            'filename' => $originalFile->getClientOriginalName(),
-            'user_id' => auth()->id(),
-        ]);
-        $file = $csv->addMediaFromRequest('file')
-            ->toMediaCollection('imports');
-        $filename = storage_path('app\\public\\'.$file->id.'\\'.$file->file_name);
-        $skip = TRUE;
-        $row = 0;
+$csv = Csv::create([
+    'tag' => $request['tag'],
+    'filename' => $originalFile->getClientOriginalName(),
+    'user_id' => auth()->id(),
+]);
+$file = $csv->addMediaFromRequest('file')
+    ->toMediaCollection('imports');
+$filename = storage_path('app\\public\\'.$file->id.'\\'.$file->file_name);
+$skip = TRUE;
+$row = 0;
 ```
 
 ### Требования
@@ -79,36 +79,36 @@ HLD-документации по нотации C4
 ![alt text](https://github.com/Anna228322/PHP_SemesterWork/blob/master/readme_img_1.jpg?raw=true)
 ### Код на примере 4-х взаимосвязанных классов:
 ```php
- $file = $csv->addMediaFromRequest('file')
-            ->toMediaCollection('imports');
-        $filename = storage_path('app\\public\\'.$file->id.'\\'.$file->file_name);
-        $row = 1;
-        if (($handle = fopen($filename, "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
-                $row++;
-                $company = Company::create([
-                    'name' => $data[7],
-                    'email' => $data[9],
-                    'phone' => $data[8],
-                    'address' => $data[10]
-                ]);
-                $contact = Contact::create([
-                    'name' => $data[3],
-                    'email' => $data[5],
-                    'phone' => $data[4],
-                    'address' => $data[6],
-                    'company_id' => $company->id
-                ]);
-                Application::create([
-                    'contact_id' => $contact->id,
-                    'csv_id' => $csv->id,
-                    'sum' => $data[2],
-                    'object_type' => $data[0],
-                    'lease_term' => $data[1],
-                ]);
-            }
-            fclose($handle);
-        }
+$file = $csv->addMediaFromRequest('file')
+    ->toMediaCollection('imports');
+$filename = storage_path('app\\public\\'.$file->id.'\\'.$file->file_name);
+$row = 1;
+if (($handle = fopen($filename, "r")) !== FALSE) {
+    while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+        $row++;
+        $company = Company::create([
+            'name' => $data[7],
+            'email' => $data[9],
+            'phone' => $data[8],
+            'address' => $data[10]
+        ]);
+        $contact = Contact::create([
+            'name' => $data[3],
+            'email' => $data[5],
+            'phone' => $data[4],
+            'address' => $data[6],
+            'company_id' => $company->id
+        ]);
+        Application::create([
+            'contact_id' => $contact->id,
+            'csv_id' => $csv->id,
+            'sum' => $data[2],
+            'object_type' => $data[0],
+            'lease_term' => $data[1],
+        ]);
+    }
+    fclose($handle);
+}
 ```
 
 ### Диаграмма последовательности (sequence diagram)
